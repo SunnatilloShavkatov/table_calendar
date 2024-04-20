@@ -568,7 +568,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
         final bool isRangeEnd = isSameDay(day, widget.rangeEndDay);
 
         Widget? rangeHighlight = widget.calendarBuilders.rangeHighlightBuilder
-            ?.call(context, day, isWithinRange);
+            ?.call(context, day, isWithinRange: isWithinRange);
 
         if (rangeHighlight == null) {
           if (isWithinRange) {
@@ -597,7 +597,8 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
 
         final Widget content = CellContent(
           key: ValueKey<String>(
-              "CellContent-${day.year}-${day.month}-${day.day}"),
+            "CellContent-${day.year}-${day.month}-${day.day}",
+          ),
           day: day,
           focusedDay: focusedDay,
           calendarStyle: widget.calendarStyle,

@@ -1,7 +1,7 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-// ignore_for_file: always_specify_types
+// ignore_for_file: always_specify_types, lines_longer_than_80_chars
 
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
@@ -26,11 +26,11 @@ Widget setupTestWidget(Widget child) => Directionality(
 Widget createTableCalendar({
   DateTime? focusedDay,
   CalendarFormat calendarFormat = CalendarFormat.month,
-  Function(DateTime)? onPageChanged,
+  void Function(DateTime)? onPageChanged,
   bool sixWeekMonthsEnforced = false,
 }) =>
     setupTestWidget(
-      TableCalendar(
+      TableCalendar<dynamic>(
         focusedDay: focusedDay ?? initialFocusedDay,
         firstDay: firstDay,
         lastDay: lastDay,
@@ -481,7 +481,7 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -508,7 +508,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: now,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -531,7 +531,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -557,7 +557,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -660,7 +660,7 @@ void main() {
 
       await tester.pumpWidget(
         setupTestWidget(
-          TableCalendar(
+          TableCalendar<dynamic>(
             focusedDay: today,
             firstDay: firstDay,
             lastDay: lastDay,
@@ -688,7 +688,7 @@ void main() {
 
       await tester.pumpWidget(
         setupTestWidget(
-          TableCalendar(
+          TableCalendar<dynamic>(
             focusedDay: today,
             firstDay: firstDay,
             lastDay: lastDay,
@@ -715,7 +715,7 @@ void main() {
 
       await tester.pumpWidget(
         setupTestWidget(
-          TableCalendar(
+          TableCalendar<dynamic>(
             focusedDay: today,
             firstDay: firstDay,
             lastDay: lastDay,
@@ -746,7 +746,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -776,7 +776,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -807,7 +807,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -843,7 +843,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: DateTime.utc(2021, 8, 16),
               firstDay: firstDay,
               lastDay: lastDay,
@@ -880,7 +880,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -911,7 +911,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -943,7 +943,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -980,7 +980,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: DateTime.utc(2021, 8, 16),
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1020,7 +1020,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1069,7 +1069,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1119,7 +1119,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1177,7 +1177,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1236,7 +1236,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1295,7 +1295,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1354,7 +1354,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1391,7 +1391,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
@@ -1428,7 +1428,7 @@ void main() {
 
         await tester.pumpWidget(
           setupTestWidget(
-            TableCalendar(
+            TableCalendar<dynamic>(
               focusedDay: initialFocusedDay,
               firstDay: firstDay,
               lastDay: lastDay,
