@@ -4,7 +4,6 @@
 import "package:flutter/widgets.dart";
 
 class CalendarPage extends StatelessWidget {
-
   const CalendarPage({
     super.key,
     required this.visibleDays,
@@ -34,23 +33,23 @@ class CalendarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: tablePadding ?? EdgeInsets.zero,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          if (weekNumberVisible) _buildWeekNumbers(context),
-          Expanded(
-            child: Table(
-              border: tableBorder,
-              children: <TableRow>[
-                if (dowVisible) _buildDaysOfWeek(context),
-                ..._buildCalendarDays(context),
-              ],
+        padding: tablePadding ?? EdgeInsets.zero,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (weekNumberVisible) _buildWeekNumbers(context),
+            Expanded(
+              child: Table(
+                border: tableBorder,
+                children: <TableRow>[
+                  if (dowVisible) _buildDaysOfWeek(context),
+                  ..._buildCalendarDays(context),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
 
   Widget _buildWeekNumbers(BuildContext context) {
     final int rowAmount = visibleDays.length ~/ 7;
@@ -58,34 +57,36 @@ class CalendarPage extends StatelessWidget {
     return Column(
       children: <Widget>[
         if (dowVisible) SizedBox(height: dowHeight ?? 0),
-        ...List.generate(rowAmount, (int index) => index * 7)
-            .map((int index) => Expanded(
-                  child: weekNumberBuilder!(context, visibleDays[index]),
-                ),)
-            ,
+        ...List.generate(rowAmount, (int index) => index * 7).map(
+          (int index) => Expanded(
+            child: weekNumberBuilder!(context, visibleDays[index]),
+          ),
+        ),
       ],
     );
   }
 
   TableRow _buildDaysOfWeek(BuildContext context) => TableRow(
-      decoration: dowDecoration,
-      children: List.generate(
-        7,
-        (int index) => dowBuilder!(context, visibleDays[index]),
-      ).toList(),
-    );
+        decoration: dowDecoration,
+        children: List.generate(
+          7,
+          (int index) => dowBuilder!(context, visibleDays[index]),
+        ).toList(),
+      );
 
   List<TableRow> _buildCalendarDays(BuildContext context) {
     final int rowAmount = visibleDays.length ~/ 7;
 
     return List.generate(rowAmount, (int index) => index * 7)
-        .map((int index) => TableRow(
-              decoration: rowDecoration,
-              children: List.generate(
-                7,
-                (int id) => dayBuilder(context, visibleDays[index + id]),
-              ),
-            ),)
+        .map(
+          (int index) => TableRow(
+            decoration: rowDecoration,
+            children: List.generate(
+              7,
+              (int id) => dayBuilder(context, visibleDays[index + id]),
+            ),
+          ),
+        )
         .toList();
   }
 }

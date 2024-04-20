@@ -4,15 +4,14 @@
 import "package:flutter/material.dart";
 import "package:flutter/widgets.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:simple_gesture_detector/simple_gesture_detector.dart";
 import "package:table_calendar/table_calendar.dart";
 
 import "common.dart";
 
 Widget setupTestWidget(Widget child) => Directionality(
-    textDirection: TextDirection.ltr,
-    child: child,
-  );
+      textDirection: TextDirection.ltr,
+      child: child,
+    );
 
 void main() {
   group("Correct days are displayed for given focusedDay when:", () {
@@ -27,10 +26,12 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
-                  "${day.day}",
-                  key: dateToKey(day),
-                ),
+              dayBuilder:
+                  (BuildContext context, DateTime day, DateTime focusedDay) =>
+                      Text(
+                "${day.day}",
+                key: dateToKey(day),
+              ),
               rowHeight: 52,
               dowVisible: false,
             ),
@@ -69,10 +70,12 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
-                  "${day.day}",
-                  key: dateToKey(day),
-                ),
+              dayBuilder:
+                  (BuildContext context, DateTime day, DateTime focusedDay) =>
+                      Text(
+                "${day.day}",
+                key: dateToKey(day),
+              ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.twoWeeks,
@@ -112,10 +115,12 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
-                  "${day.day}",
-                  key: dateToKey(day),
-                ),
+              dayBuilder:
+                  (BuildContext context, DateTime day, DateTime focusedDay) =>
+                      Text(
+                "${day.day}",
+                key: dateToKey(day),
+              ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.week,
@@ -155,10 +160,12 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
-                  "${day.day}",
-                  key: dateToKey(day),
-                ),
+              dayBuilder:
+                  (BuildContext context, DateTime day, DateTime focusedDay) =>
+                      Text(
+                "${day.day}",
+                key: dateToKey(day),
+              ),
               rowHeight: 52,
               dowVisible: false,
               startingDayOfWeek: StartingDayOfWeek.monday,
@@ -198,10 +205,12 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
-                  "${day.day}",
-                  key: dateToKey(day),
-                ),
+              dayBuilder:
+                  (BuildContext context, DateTime day, DateTime focusedDay) =>
+                      Text(
+                "${day.day}",
+                key: dateToKey(day),
+              ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.twoWeeks,
@@ -242,10 +251,12 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
-                  "${day.day}",
-                  key: dateToKey(day),
-                ),
+              dayBuilder:
+                  (BuildContext context, DateTime day, DateTime focusedDay) =>
+                      Text(
+                "${day.day}",
+                key: dateToKey(day),
+              ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.week,
@@ -283,7 +294,6 @@ void main() {
       final int nextMonth = focusedDay.add(const Duration(days: 31)).month;
 
       bool calendarCreatedFlag = false;
-      SwipeDirection? verticalSwipeDirection;
 
       await tester.pumpWidget(
         setupTestWidget(
@@ -291,18 +301,17 @@ void main() {
             firstDay: DateTime.utc(2021, 5, 15),
             lastDay: DateTime.utc(2021, 8, 18),
             focusedDay: focusedDay,
-            dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
-                "${day.day}",
-                key: dateToKey(day),
-              ),
+            dayBuilder:
+                (BuildContext context, DateTime day, DateTime focusedDay) =>
+                    Text(
+              "${day.day}",
+              key: dateToKey(day),
+            ),
             onCalendarCreated: (PageController pageController) {
               calendarCreatedFlag = true;
             },
             onPageChanged: (DateTime focusedDay2) {
               focusedDay = focusedDay2;
-            },
-            onVerticalSwipe: (SwipeDirection direction) {
-              verticalSwipeDirection = direction;
             },
             rowHeight: 52,
             dowVisible: false,
@@ -326,30 +335,36 @@ void main() {
         const Offset(0, -500),
       );
       await tester.pumpAndSettle();
-      expect(verticalSwipeDirection, SwipeDirection.up);
     },
   );
 
   testWidgets(
-    "Throw AssertionError when TableCalendarBase is built with dowVisible and dowBuilder, but dowHeight is absent",
+    "Throw AssertionError when TableCalendarBase is built with dowVisible "
+    "and dowBuilder, but dowHeight is absent",
     (WidgetTester tester) async {
-      expect(() async {
-        await tester.pumpWidget(
-          setupTestWidget(
-            TableCalendarBase(
-              firstDay: DateTime.utc(2021, 5, 15),
-              lastDay: DateTime.utc(2021, 8, 18),
-              focusedDay: DateTime.utc(2021, 7, 15),
-              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+      expect(
+        () async {
+          await tester.pumpWidget(
+            setupTestWidget(
+              TableCalendarBase(
+                firstDay: DateTime.utc(2021, 5, 15),
+                lastDay: DateTime.utc(2021, 8, 18),
+                focusedDay: DateTime.utc(2021, 7, 15),
+                dayBuilder:
+                    (BuildContext context, DateTime day, DateTime focusedDay) =>
+                        Text(
                   "${day.day}",
                   key: dateToKey(day),
                 ),
-              rowHeight: 52,
-              dowBuilder: (BuildContext context, DateTime day) => Text("${day.weekday}"),
+                rowHeight: 52,
+                dowBuilder: (BuildContext context, DateTime day) =>
+                    Text("${day.weekday}"),
+              ),
             ),
-          ),
-        );
-      }, throwsAssertionError,);
+          );
+        },
+        throwsAssertionError,
+      );
     },
   );
 }

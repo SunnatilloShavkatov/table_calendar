@@ -3,11 +3,8 @@
 
 // ignore_for_file: discarded_futures
 
-import "dart:math";
-
 import "package:flutter/widgets.dart";
 import "package:intl/intl.dart";
-import "package:simple_gesture_detector/simple_gesture_detector.dart";
 
 import "package:table_calendar/src/customization/calendar_builders.dart";
 import "package:table_calendar/src/customization/calendar_style.dart";
@@ -70,10 +67,6 @@ class TableCalendar<T> extends StatefulWidget {
     this.startingDayOfWeek = StartingDayOfWeek.sunday,
     this.dayHitTestBehavior = HitTestBehavior.opaque,
     this.availableGestures = AvailableGestures.all,
-    this.simpleSwipeConfig = const SimpleSwipeConfig(
-      verticalThreshold: 25,
-      swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct,
-    ),
     this.headerStyle = const HeaderStyle(),
     this.daysOfWeekStyle = const DaysOfWeekStyle(),
     this.calendarStyle = const CalendarStyle(),
@@ -218,9 +211,6 @@ class TableCalendar<T> extends StatefulWidget {
   /// If `AvailableGestures.none` is used, the calendar will only be interactive via buttons.
   final AvailableGestures availableGestures;
 
-  /// Configuration for vertical swipe detector.
-  final SimpleSwipeConfig simpleSwipeConfig;
-
   /// Style for `TableCalendar`'s header.
   final HeaderStyle headerStyle;
 
@@ -298,7 +288,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
   @override
   void initState() {
     super.initState();
-    _focusedDay = ValueNotifier(widget.focusedDay);
+    _focusedDay = ValueNotifier<DateTime>(widget.focusedDay);
     _rangeSelectionMode = widget.rangeSelectionMode;
   }
 
@@ -336,26 +326,6 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
   bool get _shouldBlockOutsideDays =>
       !widget.calendarStyle.outsideDaysVisible &&
       widget.calendarFormat == CalendarFormat.month;
-
-  void _swipeCalendarFormat(SwipeDirection direction) {
-    if (widget.onFormatChanged != null) {
-      final List<CalendarFormat> formats =
-          widget.availableCalendarFormats.keys.toList();
-
-      final bool isSwipeUp = direction == SwipeDirection.up;
-      int id = formats.indexOf(widget.calendarFormat);
-
-      // Order of CalendarFormats must be from biggest to smallest,
-      // e.g.: [month, twoWeeks, week]
-      if (isSwipeUp) {
-        id = min(formats.length - 1, id + 1);
-      } else {
-        id = max(0, id - 1);
-      }
-
-      widget.onFormatChanged!(formats[id]);
-    }
-  }
 
   void _onDayTapped(DateTime day) {
     final bool isOutside = day.month != _focusedDay.value.month;
@@ -514,9 +484,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
               pageAnimationDuration: widget.pageAnimationDuration,
               pageAnimationCurve: widget.pageAnimationCurve,
               availableCalendarFormats: widget.availableCalendarFormats,
-              simpleSwipeConfig: widget.simpleSwipeConfig,
               sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
-              onVerticalSwipe: _swipeCalendarFormat,
               onPageChanged: (DateTime focusedDay) {
                 _focusedDay.value = focusedDay;
                 widget.onPageChanged?.call(focusedDay);
@@ -527,7 +495,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
                 Widget? cell = widget.calendarBuilders.weekNumberBuilder
                     ?.call(context, weekNumber);
 
-                cell ??= Padding(
+                return cell ??= Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Center(
                     child: Text(
@@ -536,8 +504,6 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
                     ),
                   ),
                 );
-
-                return cell;
               },
               dowBuilder: (BuildContext context, DateTime day) {
                 Widget? dowCell =
@@ -630,7 +596,8 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
         final bool isWeekend = _isWeekend(day, weekendDays: widget.weekendDays);
 
         final Widget content = CellContent(
-          key: ValueKey("CellContent-${day.year}-${day.month}-${day.day}"),
+          key: ValueKey<String>(
+              "CellContent-${day.year}-${day.month}-${day.day}"),
           day: day,
           focusedDay: focusedDay,
           calendarStyle: widget.calendarStyle,
