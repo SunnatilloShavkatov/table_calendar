@@ -1,18 +1,18 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart' as intl;
-import 'package:table_calendar/src/customization/header_style.dart';
-import 'package:table_calendar/src/shared/utils.dart';
-import 'package:table_calendar/src/widgets/calendar_header.dart';
-import 'package:table_calendar/src/widgets/custom_icon_button.dart';
-import 'package:table_calendar/src/widgets/format_button.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:intl/intl.dart" as intl;
+import "package:table_calendar/src/customization/header_style.dart";
+import "package:table_calendar/src/shared/utils.dart";
+import "package:table_calendar/src/widgets/calendar_header.dart";
+import "package:table_calendar/src/widgets/custom_icon_button.dart";
+import "package:table_calendar/src/widgets/format_button.dart";
 
-import 'common.dart';
+import "common.dart";
 
-final focusedMonth = DateTime.utc(2021, 7, 15);
+final DateTime focusedMonth = DateTime.utc(2021, 7, 15);
 
 Widget setupTestWidget({
   HeaderStyle headerStyle = const HeaderStyle(),
@@ -20,10 +20,9 @@ Widget setupTestWidget({
   VoidCallback? onRightChevronTap,
   VoidCallback? onHeaderTap,
   VoidCallback? onHeaderLongPress,
-  Function(CalendarFormat)? onFormatButtonTap,
+  void Function(CalendarFormat)? onFormatButtonTap,
   Map<CalendarFormat, String> availableCalendarFormats = calendarFormatMap,
-}) {
-  return Directionality(
+}) => Directionality(
     textDirection: TextDirection.ltr,
     child: Material(
       child: CalendarHeader(
@@ -34,28 +33,27 @@ Widget setupTestWidget({
         onRightChevronTap: () => onRightChevronTap?.call(),
         onHeaderTap: () => onHeaderTap?.call(),
         onHeaderLongPress: () => onHeaderLongPress?.call(),
-        onFormatButtonTap: (format) => onFormatButtonTap?.call(format),
+        onFormatButtonTap: (CalendarFormat format) => onFormatButtonTap?.call(format),
         availableCalendarFormats: availableCalendarFormats,
       ),
     ),
   );
-}
 
 void main() {
   testWidgets(
-    'Displays corrent month and year for given focusedMonth',
-    (tester) async {
+    "Displays corrent month and year for given focusedMonth",
+    (WidgetTester tester) async {
       await tester.pumpWidget(setupTestWidget());
 
-      final headerText = intl.DateFormat.yMMMM().format(focusedMonth);
+      final String headerText = intl.DateFormat.yMMMM().format(focusedMonth);
 
       expect(find.byType(CalendarHeader), findsOneWidget);
       expect(find.text(headerText), findsOneWidget);
     },
   );
   testWidgets(
-    'Ensure chevrons and FormatButton are visible by default, test onTap callbacks',
-    (tester) async {
+    "Ensure chevrons and FormatButton are visible by default, test onTap callbacks",
+    (WidgetTester tester) async {
       bool leftChevronTapped = false;
       bool rightChevronTapped = false;
       bool headerTapped = false;
@@ -72,18 +70,18 @@ void main() {
         ),
       );
 
-      final leftChevron = find.widgetWithIcon(
+      final Finder leftChevron = find.widgetWithIcon(
         CustomIconButton,
         Icons.chevron_left,
       );
 
-      final rightChevron = find.widgetWithIcon(
+      final Finder rightChevron = find.widgetWithIcon(
         CustomIconButton,
         Icons.chevron_right,
       );
 
-      final header = find.byType(CalendarHeader);
-      final formatButton = find.byType(FormatButton);
+      final Finder header = find.byType(CalendarHeader);
+      final Finder formatButton = find.byType(FormatButton);
 
       expect(leftChevron, findsOneWidget);
       expect(rightChevron, findsOneWidget);
@@ -120,22 +118,22 @@ void main() {
   );
 
   testWidgets(
-    'When leftChevronVisible is false, do not show the left chevron',
-    (tester) async {
+    "When leftChevronVisible is false, do not show the left chevron",
+    (WidgetTester tester) async {
       await tester.pumpWidget(
         setupTestWidget(
-          headerStyle: HeaderStyle(
+          headerStyle: const HeaderStyle(
             leftChevronVisible: false,
           ),
         ),
       );
 
-      final leftChevron = find.widgetWithIcon(
+      final Finder leftChevron = find.widgetWithIcon(
         CustomIconButton,
         Icons.chevron_left,
       );
 
-      final rightChevron = find.widgetWithIcon(
+      final Finder rightChevron = find.widgetWithIcon(
         CustomIconButton,
         Icons.chevron_right,
       );
@@ -146,22 +144,22 @@ void main() {
   );
 
   testWidgets(
-    'When rightChevronVisible is false, do not show the right chevron',
-    (tester) async {
+    "When rightChevronVisible is false, do not show the right chevron",
+    (WidgetTester tester) async {
       await tester.pumpWidget(
         setupTestWidget(
-          headerStyle: HeaderStyle(
+          headerStyle: const HeaderStyle(
             rightChevronVisible: false,
           ),
         ),
       );
 
-      final leftChevron = find.widgetWithIcon(
+      final Finder leftChevron = find.widgetWithIcon(
         CustomIconButton,
         Icons.chevron_left,
       );
 
-      final rightChevron = find.widgetWithIcon(
+      final Finder rightChevron = find.widgetWithIcon(
         CustomIconButton,
         Icons.chevron_right,
       );
@@ -172,29 +170,29 @@ void main() {
   );
 
   testWidgets(
-    'When availableCalendarFormats has a single format, do not show the FormatButton',
-    (tester) async {
+    "When availableCalendarFormats has a single format, do not show the FormatButton",
+    (WidgetTester tester) async {
       await tester.pumpWidget(
         setupTestWidget(
-          availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+          availableCalendarFormats: const <CalendarFormat, String>{CalendarFormat.month: "Month"},
         ),
       );
 
-      final formatButton = find.byType(FormatButton);
+      final Finder formatButton = find.byType(FormatButton);
       expect(formatButton, findsNothing);
     },
   );
 
   testWidgets(
-    'When formatButtonVisible is false, do not show the FormatButton',
-    (tester) async {
+    "When formatButtonVisible is false, do not show the FormatButton",
+    (WidgetTester tester) async {
       await tester.pumpWidget(
         setupTestWidget(
-          headerStyle: HeaderStyle(formatButtonVisible: false),
+          headerStyle: const HeaderStyle(formatButtonVisible: false),
         ),
       );
 
-      final formatButton = find.byType(FormatButton);
+      final Finder formatButton = find.byType(FormatButton);
       expect(formatButton, findsNothing);
     },
   );

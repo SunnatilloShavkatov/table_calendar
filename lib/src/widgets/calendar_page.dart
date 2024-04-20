@@ -1,9 +1,25 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
 class CalendarPage extends StatelessWidget {
+
+  const CalendarPage({
+    super.key,
+    required this.visibleDays,
+    this.dowBuilder,
+    required this.dayBuilder,
+    this.weekNumberBuilder,
+    this.dowDecoration,
+    this.rowDecoration,
+    this.tableBorder,
+    this.tablePadding,
+    this.dowVisible = true,
+    this.weekNumberVisible = false,
+    this.dowHeight,
+  })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null), ""),
+        assert(!weekNumberVisible || weekNumberBuilder != null, "");
   final Widget Function(BuildContext context, DateTime day)? dowBuilder;
   final Widget Function(BuildContext context, DateTime day) dayBuilder;
   final Widget Function(BuildContext context, DateTime day)? weekNumberBuilder;
@@ -16,35 +32,17 @@ class CalendarPage extends StatelessWidget {
   final bool weekNumberVisible;
   final double? dowHeight;
 
-  const CalendarPage({
-    Key? key,
-    required this.visibleDays,
-    this.dowBuilder,
-    required this.dayBuilder,
-    this.weekNumberBuilder,
-    this.dowDecoration,
-    this.rowDecoration,
-    this.tableBorder,
-    this.tablePadding,
-    this.dowVisible = true,
-    this.weekNumberVisible = false,
-    this.dowHeight,
-  })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null)),
-        assert(!weekNumberVisible || weekNumberBuilder != null),
-        super(key: key);
-
   @override
-  Widget build(BuildContext context) {
-    return Padding(
+  Widget build(BuildContext context) => Padding(
       padding: tablePadding ?? EdgeInsets.zero,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: <Widget>[
           if (weekNumberVisible) _buildWeekNumbers(context),
           Expanded(
             child: Table(
               border: tableBorder,
-              children: [
+              children: <TableRow>[
                 if (dowVisible) _buildDaysOfWeek(context),
                 ..._buildCalendarDays(context),
               ],
@@ -53,44 +51,41 @@ class CalendarPage extends StatelessWidget {
         ],
       ),
     );
-  }
 
   Widget _buildWeekNumbers(BuildContext context) {
-    final rowAmount = visibleDays.length ~/ 7;
+    final int rowAmount = visibleDays.length ~/ 7;
 
     return Column(
-      children: [
+      children: <Widget>[
         if (dowVisible) SizedBox(height: dowHeight ?? 0),
-        ...List.generate(rowAmount, (index) => index * 7)
-            .map((index) => Expanded(
+        ...List.generate(rowAmount, (int index) => index * 7)
+            .map((int index) => Expanded(
                   child: weekNumberBuilder!(context, visibleDays[index]),
-                ))
-            .toList()
+                ),)
+            ,
       ],
     );
   }
 
-  TableRow _buildDaysOfWeek(BuildContext context) {
-    return TableRow(
+  TableRow _buildDaysOfWeek(BuildContext context) => TableRow(
       decoration: dowDecoration,
       children: List.generate(
         7,
-        (index) => dowBuilder!(context, visibleDays[index]),
+        (int index) => dowBuilder!(context, visibleDays[index]),
       ).toList(),
     );
-  }
 
   List<TableRow> _buildCalendarDays(BuildContext context) {
-    final rowAmount = visibleDays.length ~/ 7;
+    final int rowAmount = visibleDays.length ~/ 7;
 
-    return List.generate(rowAmount, (index) => index * 7)
-        .map((index) => TableRow(
+    return List.generate(rowAmount, (int index) => index * 7)
+        .map((int index) => TableRow(
               decoration: rowDecoration,
               children: List.generate(
                 7,
-                (id) => dayBuilder(context, visibleDays[index + id]),
+                (int id) => dayBuilder(context, visibleDays[index + id]),
               ),
-            ))
+            ),)
         .toList();
   }
 }

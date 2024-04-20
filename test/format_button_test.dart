@@ -1,26 +1,24 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:table_calendar/src/widgets/format_button.dart';
-import 'package:table_calendar/table_calendar.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:table_calendar/src/widgets/format_button.dart";
+import "package:table_calendar/table_calendar.dart";
 
-import 'common.dart';
+import "common.dart";
 
-Widget setupTestWidget(Widget child) {
-  return Directionality(
+Widget setupTestWidget(Widget child) => Directionality(
     textDirection: TextDirection.ltr,
     child: Material(child: child),
   );
-}
 
 void main() {
-  group('onTap callback tests:', () {
+  group("onTap callback tests:", () {
     testWidgets(
-      'Initial format month returns twoWeeks when tapped',
-      (tester) async {
-        final headerStyle = HeaderStyle();
+      "Initial format month returns twoWeeks when tapped",
+      (WidgetTester tester) async {
+        const HeaderStyle headerStyle = HeaderStyle();
         CalendarFormat? calendarFormat;
 
         await tester.pumpWidget(
@@ -32,7 +30,7 @@ void main() {
               padding: headerStyle.formatButtonPadding,
               textStyle: headerStyle.formatButtonTextStyle,
               showsNextFormat: headerStyle.formatButtonShowsNext,
-              onTap: (format) {
+              onTap: (CalendarFormat format) {
                 calendarFormat = format;
               },
             ),
@@ -49,9 +47,9 @@ void main() {
     );
 
     testWidgets(
-      'Initial format twoWeeks returns week when tapped',
-      (tester) async {
-        final headerStyle = HeaderStyle();
+      "Initial format twoWeeks returns week when tapped",
+      (WidgetTester tester) async {
+        const HeaderStyle headerStyle = HeaderStyle();
         CalendarFormat? calendarFormat;
 
         await tester.pumpWidget(
@@ -63,7 +61,7 @@ void main() {
               padding: headerStyle.formatButtonPadding,
               textStyle: headerStyle.formatButtonTextStyle,
               showsNextFormat: headerStyle.formatButtonShowsNext,
-              onTap: (format) {
+              onTap: (CalendarFormat format) {
                 calendarFormat = format;
               },
             ),
@@ -80,9 +78,9 @@ void main() {
     );
 
     testWidgets(
-      'Initial format week return month when tapped',
-      (tester) async {
-        final headerStyle = HeaderStyle();
+      "Initial format week return month when tapped",
+      (WidgetTester tester) async {
+        const HeaderStyle headerStyle = HeaderStyle();
         CalendarFormat? calendarFormat;
 
         await tester.pumpWidget(
@@ -94,7 +92,7 @@ void main() {
               padding: headerStyle.formatButtonPadding,
               textStyle: headerStyle.formatButtonTextStyle,
               showsNextFormat: headerStyle.formatButtonShowsNext,
-              onTap: (format) {
+              onTap: (CalendarFormat format) {
                 calendarFormat = format;
               },
             ),
@@ -111,20 +109,20 @@ void main() {
     );
   });
 
-  group('showsNextFormat tests:', () {
+  group("showsNextFormat tests:", () {
     testWidgets(
-      'true - display next calendar format',
-      (tester) async {
-        final headerStyle = HeaderStyle(formatButtonShowsNext: true);
+      "true - display next calendar format",
+      (WidgetTester tester) async {
+        const HeaderStyle headerStyle = HeaderStyle();
 
-        final currentFormatIndex = 0;
-        final currentFormat =
+        const int currentFormatIndex = 0;
+        final CalendarFormat currentFormat =
             calendarFormatMap.keys.elementAt(currentFormatIndex);
-        final currentFormatText =
+        final String currentFormatText =
             calendarFormatMap.values.elementAt(currentFormatIndex);
 
-        final nextFormatIndex = 1;
-        final nextFormatText =
+        const int nextFormatIndex = 1;
+        final String nextFormatText =
             calendarFormatMap.values.elementAt(nextFormatIndex);
 
         await tester.pumpWidget(
@@ -136,7 +134,7 @@ void main() {
               padding: headerStyle.formatButtonPadding,
               textStyle: headerStyle.formatButtonTextStyle,
               showsNextFormat: headerStyle.formatButtonShowsNext,
-              onTap: (format) {},
+              onTap: (CalendarFormat format) {},
             ),
           ),
         );
@@ -150,14 +148,14 @@ void main() {
     );
 
     testWidgets(
-      'false - display current calendar format',
-      (tester) async {
-        final headerStyle = HeaderStyle(formatButtonShowsNext: false);
+      "false - display current calendar format",
+      (WidgetTester tester) async {
+        const HeaderStyle headerStyle = HeaderStyle(formatButtonShowsNext: false);
 
-        final currentFormatIndex = 0;
-        final currentFormat =
+        const int currentFormatIndex = 0;
+        final CalendarFormat currentFormat =
             calendarFormatMap.keys.elementAt(currentFormatIndex);
-        final currentFormatText =
+        final String currentFormatText =
             calendarFormatMap.values.elementAt(currentFormatIndex);
 
         await tester.pumpWidget(
@@ -169,7 +167,7 @@ void main() {
               padding: headerStyle.formatButtonPadding,
               textStyle: headerStyle.formatButtonTextStyle,
               showsNextFormat: headerStyle.formatButtonShowsNext,
-              onTap: (format) {},
+              onTap: (CalendarFormat format) {},
             ),
           ),
         );

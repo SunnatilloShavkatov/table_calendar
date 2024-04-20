@@ -1,13 +1,32 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+import "package:flutter/widgets.dart";
+import "package:intl/intl.dart";
 
-import '../customization/calendar_builders.dart';
-import '../customization/calendar_style.dart';
+import "package:table_calendar/src/customization/calendar_builders.dart";
+import "package:table_calendar/src/customization/calendar_style.dart";
 
 class CellContent extends StatelessWidget {
+
+  const CellContent({
+    super.key,
+    required this.day,
+    required this.focusedDay,
+    required this.calendarStyle,
+    required this.calendarBuilders,
+    required this.isTodayHighlighted,
+    required this.isToday,
+    required this.isSelected,
+    required this.isRangeStart,
+    required this.isRangeEnd,
+    required this.isWithinRange,
+    required this.isOutside,
+    required this.isDisabled,
+    required this.isHoliday,
+    required this.isWeekend,
+    this.locale,
+  });
   final DateTime day;
   final DateTime focusedDay;
   final dynamic locale;
@@ -24,30 +43,11 @@ class CellContent extends StatelessWidget {
   final CalendarStyle calendarStyle;
   final CalendarBuilders calendarBuilders;
 
-  const CellContent({
-    Key? key,
-    required this.day,
-    required this.focusedDay,
-    required this.calendarStyle,
-    required this.calendarBuilders,
-    required this.isTodayHighlighted,
-    required this.isToday,
-    required this.isSelected,
-    required this.isRangeStart,
-    required this.isRangeEnd,
-    required this.isWithinRange,
-    required this.isOutside,
-    required this.isDisabled,
-    required this.isHoliday,
-    required this.isWeekend,
-    this.locale,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    final dowLabel = DateFormat.EEEE(locale).format(day);
-    final dayLabel = DateFormat.yMMMMd(locale).format(day);
-    final semanticsLabel = '$dowLabel, $dayLabel';
+    final String dowLabel = DateFormat.EEEE(locale).format(day);
+    final String dayLabel = DateFormat.yMMMMd(locale).format(day);
+    final String semanticsLabel = "$dowLabel, $dayLabel";
 
     Widget? cell =
         calendarBuilders.prioritizedBuilder?.call(context, day, focusedDay);
@@ -60,11 +60,11 @@ class CellContent extends StatelessWidget {
       );
     }
 
-    final text = DateFormat.d(locale).format(day);
-    final margin = calendarStyle.cellMargin;
-    final padding = calendarStyle.cellPadding;
-    final alignment = calendarStyle.cellAlignment;
-    final duration = const Duration(milliseconds: 250);
+    final String text = DateFormat.d(locale).format(day);
+    final EdgeInsets margin = calendarStyle.cellMargin;
+    final EdgeInsets padding = calendarStyle.cellPadding;
+    final AlignmentGeometry alignment = calendarStyle.cellAlignment;
+    const Duration duration = Duration(milliseconds: 250);
 
     if (isDisabled) {
       cell = calendarBuilders.disabledBuilder?.call(context, day, focusedDay) ??

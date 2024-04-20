@@ -1,27 +1,25 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:simple_gesture_detector/simple_gesture_detector.dart';
-import 'package:table_calendar/table_calendar.dart';
+import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:simple_gesture_detector/simple_gesture_detector.dart";
+import "package:table_calendar/table_calendar.dart";
 
-import 'common.dart';
+import "common.dart";
 
-Widget setupTestWidget(Widget child) {
-  return Directionality(
+Widget setupTestWidget(Widget child) => Directionality(
     textDirection: TextDirection.ltr,
     child: child,
   );
-}
 
 void main() {
-  group('Correct days are displayed for given focusedDay when:', () {
+  group("Correct days are displayed for given focusedDay when:", () {
     testWidgets(
-      'in month format, starting day is Sunday',
-      (tester) async {
-        final focusedDay = DateTime.utc(2021, 7, 15);
+      "in month format, starting day is Sunday",
+      (WidgetTester tester) async {
+        final DateTime focusedDay = DateTime.utc(2021, 7, 15);
 
         await tester.pumpWidget(
           setupTestWidget(
@@ -29,30 +27,26 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (context, day, focusedDay) {
-                return Text(
-                  '${day.day}',
+              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                  "${day.day}",
                   key: dateToKey(day),
-                );
-              },
+                ),
               rowHeight: 52,
               dowVisible: false,
-              calendarFormat: CalendarFormat.month,
-              startingDayOfWeek: StartingDayOfWeek.sunday,
             ),
           ),
         );
 
-        final firstVisibleDay = DateTime.utc(2021, 6, 27);
-        final lastVisibleDay = DateTime.utc(2021, 7, 31);
+        final DateTime firstVisibleDay = DateTime.utc(2021, 6, 27);
+        final DateTime lastVisibleDay = DateTime.utc(2021, 7, 31);
 
-        final focusedDayKey = dateToKey(focusedDay);
-        final firstVisibleDayKey = dateToKey(firstVisibleDay);
-        final lastVisibleDayKey = dateToKey(lastVisibleDay);
+        final ValueKey<String> focusedDayKey = dateToKey(focusedDay);
+        final ValueKey<String> firstVisibleDayKey = dateToKey(firstVisibleDay);
+        final ValueKey<String> lastVisibleDayKey = dateToKey(lastVisibleDay);
 
-        final startOOBKey =
+        final ValueKey<String> startOOBKey =
             dateToKey(firstVisibleDay.subtract(const Duration(days: 1)));
-        final endOOBKey =
+        final ValueKey<String> endOOBKey =
             dateToKey(lastVisibleDay.add(const Duration(days: 1)));
 
         expect(find.byKey(focusedDayKey), findsOneWidget);
@@ -65,9 +59,9 @@ void main() {
     );
 
     testWidgets(
-      'in two weeks format, starting day is Sunday',
-      (tester) async {
-        final focusedDay = DateTime.utc(2021, 7, 15);
+      "in two weeks format, starting day is Sunday",
+      (WidgetTester tester) async {
+        final DateTime focusedDay = DateTime.utc(2021, 7, 15);
 
         await tester.pumpWidget(
           setupTestWidget(
@@ -75,30 +69,27 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (context, day, focusedDay) {
-                return Text(
-                  '${day.day}',
+              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                  "${day.day}",
                   key: dateToKey(day),
-                );
-              },
+                ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.twoWeeks,
-              startingDayOfWeek: StartingDayOfWeek.sunday,
             ),
           ),
         );
 
-        final firstVisibleDay = DateTime.utc(2021, 7, 4);
-        final lastVisibleDay = DateTime.utc(2021, 7, 17);
+        final DateTime firstVisibleDay = DateTime.utc(2021, 7, 4);
+        final DateTime lastVisibleDay = DateTime.utc(2021, 7, 17);
 
-        final focusedDayKey = dateToKey(focusedDay);
-        final firstVisibleDayKey = dateToKey(firstVisibleDay);
-        final lastVisibleDayKey = dateToKey(lastVisibleDay);
+        final ValueKey<String> focusedDayKey = dateToKey(focusedDay);
+        final ValueKey<String> firstVisibleDayKey = dateToKey(firstVisibleDay);
+        final ValueKey<String> lastVisibleDayKey = dateToKey(lastVisibleDay);
 
-        final startOOBKey =
+        final ValueKey<String> startOOBKey =
             dateToKey(firstVisibleDay.subtract(const Duration(days: 1)));
-        final endOOBKey =
+        final ValueKey<String> endOOBKey =
             dateToKey(lastVisibleDay.add(const Duration(days: 1)));
 
         expect(find.byKey(focusedDayKey), findsOneWidget);
@@ -111,9 +102,9 @@ void main() {
     );
 
     testWidgets(
-      'in week format, starting day is Sunday',
-      (tester) async {
-        final focusedDay = DateTime.utc(2021, 7, 15);
+      "in week format, starting day is Sunday",
+      (WidgetTester tester) async {
+        final DateTime focusedDay = DateTime.utc(2021, 7, 15);
 
         await tester.pumpWidget(
           setupTestWidget(
@@ -121,30 +112,27 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (context, day, focusedDay) {
-                return Text(
-                  '${day.day}',
+              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                  "${day.day}",
                   key: dateToKey(day),
-                );
-              },
+                ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.week,
-              startingDayOfWeek: StartingDayOfWeek.sunday,
             ),
           ),
         );
 
-        final firstVisibleDay = DateTime.utc(2021, 7, 11);
-        final lastVisibleDay = DateTime.utc(2021, 7, 17);
+        final DateTime firstVisibleDay = DateTime.utc(2021, 7, 11);
+        final DateTime lastVisibleDay = DateTime.utc(2021, 7, 17);
 
-        final focusedDayKey = dateToKey(focusedDay);
-        final firstVisibleDayKey = dateToKey(firstVisibleDay);
-        final lastVisibleDayKey = dateToKey(lastVisibleDay);
+        final ValueKey<String> focusedDayKey = dateToKey(focusedDay);
+        final ValueKey<String> firstVisibleDayKey = dateToKey(firstVisibleDay);
+        final ValueKey<String> lastVisibleDayKey = dateToKey(lastVisibleDay);
 
-        final startOOBKey =
+        final ValueKey<String> startOOBKey =
             dateToKey(firstVisibleDay.subtract(const Duration(days: 1)));
-        final endOOBKey =
+        final ValueKey<String> endOOBKey =
             dateToKey(lastVisibleDay.add(const Duration(days: 1)));
 
         expect(find.byKey(focusedDayKey), findsOneWidget);
@@ -157,9 +145,9 @@ void main() {
     );
 
     testWidgets(
-      'in month format, starting day is Monday',
-      (tester) async {
-        final focusedDay = DateTime.utc(2021, 7, 15);
+      "in month format, starting day is Monday",
+      (WidgetTester tester) async {
+        final DateTime focusedDay = DateTime.utc(2021, 7, 15);
 
         await tester.pumpWidget(
           setupTestWidget(
@@ -167,30 +155,27 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (context, day, focusedDay) {
-                return Text(
-                  '${day.day}',
+              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                  "${day.day}",
                   key: dateToKey(day),
-                );
-              },
+                ),
               rowHeight: 52,
               dowVisible: false,
-              calendarFormat: CalendarFormat.month,
               startingDayOfWeek: StartingDayOfWeek.monday,
             ),
           ),
         );
 
-        final firstVisibleDay = DateTime.utc(2021, 6, 28);
-        final lastVisibleDay = DateTime.utc(2021, 8, 1);
+        final DateTime firstVisibleDay = DateTime.utc(2021, 6, 28);
+        final DateTime lastVisibleDay = DateTime.utc(2021, 8);
 
-        final focusedDayKey = dateToKey(focusedDay);
-        final firstVisibleDayKey = dateToKey(firstVisibleDay);
-        final lastVisibleDayKey = dateToKey(lastVisibleDay);
+        final ValueKey<String> focusedDayKey = dateToKey(focusedDay);
+        final ValueKey<String> firstVisibleDayKey = dateToKey(firstVisibleDay);
+        final ValueKey<String> lastVisibleDayKey = dateToKey(lastVisibleDay);
 
-        final startOOBKey =
+        final ValueKey<String> startOOBKey =
             dateToKey(firstVisibleDay.subtract(const Duration(days: 1)));
-        final endOOBKey =
+        final ValueKey<String> endOOBKey =
             dateToKey(lastVisibleDay.add(const Duration(days: 1)));
 
         expect(find.byKey(focusedDayKey), findsOneWidget);
@@ -203,9 +188,9 @@ void main() {
     );
 
     testWidgets(
-      'in two weeks format, starting day is Monday',
-      (tester) async {
-        final focusedDay = DateTime.utc(2021, 7, 15);
+      "in two weeks format, starting day is Monday",
+      (WidgetTester tester) async {
+        final DateTime focusedDay = DateTime.utc(2021, 7, 15);
 
         await tester.pumpWidget(
           setupTestWidget(
@@ -213,12 +198,10 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (context, day, focusedDay) {
-                return Text(
-                  '${day.day}',
+              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                  "${day.day}",
                   key: dateToKey(day),
-                );
-              },
+                ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.twoWeeks,
@@ -227,16 +210,16 @@ void main() {
           ),
         );
 
-        final firstVisibleDay = DateTime.utc(2021, 7, 5);
-        final lastVisibleDay = DateTime.utc(2021, 7, 18);
+        final DateTime firstVisibleDay = DateTime.utc(2021, 7, 5);
+        final DateTime lastVisibleDay = DateTime.utc(2021, 7, 18);
 
-        final focusedDayKey = dateToKey(focusedDay);
-        final firstVisibleDayKey = dateToKey(firstVisibleDay);
-        final lastVisibleDayKey = dateToKey(lastVisibleDay);
+        final ValueKey<String> focusedDayKey = dateToKey(focusedDay);
+        final ValueKey<String> firstVisibleDayKey = dateToKey(firstVisibleDay);
+        final ValueKey<String> lastVisibleDayKey = dateToKey(lastVisibleDay);
 
-        final startOOBKey =
+        final ValueKey<String> startOOBKey =
             dateToKey(firstVisibleDay.subtract(const Duration(days: 1)));
-        final endOOBKey =
+        final ValueKey<String> endOOBKey =
             dateToKey(lastVisibleDay.add(const Duration(days: 1)));
 
         expect(find.byKey(focusedDayKey), findsOneWidget);
@@ -249,9 +232,9 @@ void main() {
     );
 
     testWidgets(
-      'in week format, starting day is Monday',
-      (tester) async {
-        final focusedDay = DateTime.utc(2021, 7, 15);
+      "in week format, starting day is Monday",
+      (WidgetTester tester) async {
+        final DateTime focusedDay = DateTime.utc(2021, 7, 15);
 
         await tester.pumpWidget(
           setupTestWidget(
@@ -259,12 +242,10 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: focusedDay,
-              dayBuilder: (context, day, focusedDay) {
-                return Text(
-                  '${day.day}',
+              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                  "${day.day}",
                   key: dateToKey(day),
-                );
-              },
+                ),
               rowHeight: 52,
               dowVisible: false,
               calendarFormat: CalendarFormat.week,
@@ -273,16 +254,16 @@ void main() {
           ),
         );
 
-        final firstVisibleDay = DateTime.utc(2021, 7, 12);
-        final lastVisibleDay = DateTime.utc(2021, 7, 18);
+        final DateTime firstVisibleDay = DateTime.utc(2021, 7, 12);
+        final DateTime lastVisibleDay = DateTime.utc(2021, 7, 18);
 
-        final focusedDayKey = dateToKey(focusedDay);
-        final firstVisibleDayKey = dateToKey(firstVisibleDay);
-        final lastVisibleDayKey = dateToKey(lastVisibleDay);
+        final ValueKey<String> focusedDayKey = dateToKey(focusedDay);
+        final ValueKey<String> firstVisibleDayKey = dateToKey(firstVisibleDay);
+        final ValueKey<String> lastVisibleDayKey = dateToKey(lastVisibleDay);
 
-        final startOOBKey =
+        final ValueKey<String> startOOBKey =
             dateToKey(firstVisibleDay.subtract(const Duration(days: 1)));
-        final endOOBKey =
+        final ValueKey<String> endOOBKey =
             dateToKey(lastVisibleDay.add(const Duration(days: 1)));
 
         expect(find.byKey(focusedDayKey), findsOneWidget);
@@ -296,10 +277,10 @@ void main() {
   });
 
   testWidgets(
-    'Callbacks return expected values',
-    (tester) async {
+    "Callbacks return expected values",
+    (WidgetTester tester) async {
       DateTime focusedDay = DateTime.utc(2021, 7, 15);
-      final nextMonth = focusedDay.add(const Duration(days: 31)).month;
+      final int nextMonth = focusedDay.add(const Duration(days: 31)).month;
 
       bool calendarCreatedFlag = false;
       SwipeDirection? verticalSwipeDirection;
@@ -310,19 +291,17 @@ void main() {
             firstDay: DateTime.utc(2021, 5, 15),
             lastDay: DateTime.utc(2021, 8, 18),
             focusedDay: focusedDay,
-            dayBuilder: (context, day, focusedDay) {
-              return Text(
-                '${day.day}',
+            dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                "${day.day}",
                 key: dateToKey(day),
-              );
-            },
-            onCalendarCreated: (pageController) {
+              ),
+            onCalendarCreated: (PageController pageController) {
               calendarCreatedFlag = true;
             },
-            onPageChanged: (focusedDay2) {
+            onPageChanged: (DateTime focusedDay2) {
               focusedDay = focusedDay2;
             },
-            onVerticalSwipe: (direction) {
+            onVerticalSwipe: (SwipeDirection direction) {
               verticalSwipeDirection = direction;
             },
             rowHeight: 52,
@@ -352,8 +331,8 @@ void main() {
   );
 
   testWidgets(
-    'Throw AssertionError when TableCalendarBase is built with dowVisible and dowBuilder, but dowHeight is absent',
-    (tester) async {
+    "Throw AssertionError when TableCalendarBase is built with dowVisible and dowBuilder, but dowHeight is absent",
+    (WidgetTester tester) async {
       expect(() async {
         await tester.pumpWidget(
           setupTestWidget(
@@ -361,21 +340,16 @@ void main() {
               firstDay: DateTime.utc(2021, 5, 15),
               lastDay: DateTime.utc(2021, 8, 18),
               focusedDay: DateTime.utc(2021, 7, 15),
-              dayBuilder: (context, day, focusedDay) {
-                return Text(
-                  '${day.day}',
+              dayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) => Text(
+                  "${day.day}",
                   key: dateToKey(day),
-                );
-              },
+                ),
               rowHeight: 52,
-              dowVisible: true,
-              dowBuilder: (context, day) {
-                return Text('${day.weekday}');
-              },
+              dowBuilder: (BuildContext context, DateTime day) => Text("${day.weekday}"),
             ),
           ),
         );
-      }, throwsAssertionError);
+      }, throwsAssertionError,);
     },
   );
 }

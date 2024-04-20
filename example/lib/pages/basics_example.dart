@@ -1,14 +1,16 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import "package:flutter/material.dart";
+import "package:table_calendar/table_calendar.dart";
 
-import '../utils.dart';
+import "package:table_calendar_example/utils.dart";
 
 class TableBasicsExample extends StatefulWidget {
+  const TableBasicsExample({super.key});
+
   @override
-  _TableBasicsExampleState createState() => _TableBasicsExampleState();
+  State<TableBasicsExample> createState() => _TableBasicsExampleState();
 }
 
 class _TableBasicsExampleState extends State<TableBasicsExample> {
@@ -17,17 +19,16 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
   DateTime? _selectedDay;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: Text('TableCalendar - Basics'),
+        title: const Text("TableCalendar - Basics"),
       ),
       body: TableCalendar(
         firstDay: kFirstDay,
         lastDay: kLastDay,
         focusedDay: _focusedDay,
         calendarFormat: _calendarFormat,
-        selectedDayPredicate: (day) {
+        selectedDayPredicate: (DateTime day) {
           // Use `selectedDayPredicate` to determine which day is currently selected.
           // If this returns true, then `day` will be marked as selected.
 
@@ -35,7 +36,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
           // the time-part of compared DateTime objects.
           return isSameDay(_selectedDay, day);
         },
-        onDaySelected: (selectedDay, focusedDay) {
+        onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
           if (!isSameDay(_selectedDay, selectedDay)) {
             // Call `setState()` when updating the selected day
             setState(() {
@@ -44,7 +45,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
             });
           }
         },
-        onFormatChanged: (format) {
+        onFormatChanged: (CalendarFormat format) {
           if (_calendarFormat != format) {
             // Call `setState()` when updating calendar format
             setState(() {
@@ -52,11 +53,10 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
             });
           }
         },
-        onPageChanged: (focusedDay) {
+        onPageChanged: (DateTime focusedDay) {
           // No need to call `setState()` here
           _focusedDay = focusedDay;
         },
       ),
     );
-  }
 }

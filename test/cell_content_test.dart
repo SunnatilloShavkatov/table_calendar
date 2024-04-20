@@ -1,12 +1,12 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/widgets.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart' hide TextDirection;
-import 'package:table_calendar/src/widgets/cell_content.dart';
-import 'package:table_calendar/table_calendar.dart';
+import "package:flutter/widgets.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:intl/intl.dart" hide TextDirection;
+import "package:table_calendar/src/widgets/cell_content.dart";
+import "package:table_calendar/table_calendar.dart";
 
 Widget setupTestWidget(
   DateTime cellDay, {
@@ -23,7 +23,7 @@ Widget setupTestWidget(
   bool isTodayHighlighted = true,
   String? locale,
 }) {
-  final calendarStyle = CalendarStyle();
+  const CalendarStyle calendarStyle = CalendarStyle();
 
   return Directionality(
     textDirection: TextDirection.ltr,
@@ -48,18 +48,18 @@ Widget setupTestWidget(
 }
 
 void main() {
-  group('CalendarBuilders flag test:', () {
-    testWidgets('selectedBuilder', (tester) async {
+  group("CalendarBuilders flag test:", () {
+    testWidgets("selectedBuilder", (WidgetTester tester) async {
       DateTime? builderDay;
 
-      final calendarBuilders = CalendarBuilders(
-        selectedBuilder: (context, day, focusedDay) {
+      final CalendarBuilders calendarBuilders = CalendarBuilders(
+        selectedBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
           builderDay = day;
-          return Text('${day.day}');
+          return Text("${day.day}");
         },
       );
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       expect(builderDay, isNull);
 
       await tester.pumpWidget(
@@ -73,17 +73,17 @@ void main() {
       expect(builderDay, cellDay);
     });
 
-    testWidgets('rangeStartBuilder', (tester) async {
+    testWidgets("rangeStartBuilder", (WidgetTester tester) async {
       DateTime? builderDay;
 
-      final calendarBuilders = CalendarBuilders(
-        rangeStartBuilder: (context, day, focusedDay) {
+      final CalendarBuilders calendarBuilders = CalendarBuilders(
+        rangeStartBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
           builderDay = day;
-          return Text('${day.day}');
+          return Text("${day.day}");
         },
       );
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       expect(builderDay, isNull);
 
       await tester.pumpWidget(
@@ -97,17 +97,17 @@ void main() {
       expect(builderDay, cellDay);
     });
 
-    testWidgets('rangeEndBuilder', (tester) async {
+    testWidgets("rangeEndBuilder", (WidgetTester tester) async {
       DateTime? builderDay;
 
-      final calendarBuilders = CalendarBuilders(
-        rangeEndBuilder: (context, day, focusedDay) {
+      final CalendarBuilders calendarBuilders = CalendarBuilders(
+        rangeEndBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
           builderDay = day;
-          return Text('${day.day}');
+          return Text("${day.day}");
         },
       );
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       expect(builderDay, isNull);
 
       await tester.pumpWidget(
@@ -121,17 +121,17 @@ void main() {
       expect(builderDay, cellDay);
     });
 
-    testWidgets('withinRangeBuilder', (tester) async {
+    testWidgets("withinRangeBuilder", (WidgetTester tester) async {
       DateTime? builderDay;
 
-      final calendarBuilders = CalendarBuilders(
-        withinRangeBuilder: (context, day, focusedDay) {
+      final CalendarBuilders calendarBuilders = CalendarBuilders(
+        withinRangeBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
           builderDay = day;
-          return Text('${day.day}');
+          return Text("${day.day}");
         },
       );
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       expect(builderDay, isNull);
 
       await tester.pumpWidget(
@@ -145,17 +145,17 @@ void main() {
       expect(builderDay, cellDay);
     });
 
-    testWidgets('todayBuilder', (tester) async {
+    testWidgets("todayBuilder", (WidgetTester tester) async {
       DateTime? builderDay;
 
-      final calendarBuilders = CalendarBuilders(
-        todayBuilder: (context, day, focusedDay) {
+      final CalendarBuilders calendarBuilders = CalendarBuilders(
+        todayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
           builderDay = day;
-          return Text('${day.day}');
+          return Text("${day.day}");
         },
       );
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       expect(builderDay, isNull);
 
       await tester.pumpWidget(
@@ -169,17 +169,17 @@ void main() {
       expect(builderDay, cellDay);
     });
 
-    testWidgets('holidayBuilder', (tester) async {
+    testWidgets("holidayBuilder", (WidgetTester tester) async {
       DateTime? builderDay;
 
-      final calendarBuilders = CalendarBuilders(
-        holidayBuilder: (context, day, focusedDay) {
+      final CalendarBuilders calendarBuilders = CalendarBuilders(
+        holidayBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
           builderDay = day;
-          return Text('${day.day}');
+          return Text("${day.day}");
         },
       );
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       expect(builderDay, isNull);
 
       await tester.pumpWidget(
@@ -193,17 +193,17 @@ void main() {
       expect(builderDay, cellDay);
     });
 
-    testWidgets('outsideBuilder', (tester) async {
+    testWidgets("outsideBuilder", (WidgetTester tester) async {
       DateTime? builderDay;
 
-      final calendarBuilders = CalendarBuilders(
-        outsideBuilder: (context, day, focusedDay) {
+      final CalendarBuilders calendarBuilders = CalendarBuilders(
+        outsideBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
           builderDay = day;
-          return Text('${day.day}');
+          return Text("${day.day}");
         },
       );
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       expect(builderDay, isNull);
 
       await tester.pumpWidget(
@@ -218,18 +218,18 @@ void main() {
     });
 
     testWidgets(
-      'defaultBuilder gets triggered when no other flags are active',
-      (tester) async {
+      "defaultBuilder gets triggered when no other flags are active",
+      (WidgetTester tester) async {
         DateTime? builderDay;
 
-        final calendarBuilders = CalendarBuilders(
-          defaultBuilder: (context, day, focusedDay) {
+        final CalendarBuilders calendarBuilders = CalendarBuilders(
+          defaultBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
             builderDay = day;
-            return Text('${day.day}');
+            return Text("${day.day}");
           },
         );
 
-        final cellDay = DateTime.utc(2021, 7, 15);
+        final DateTime cellDay = DateTime.utc(2021, 7, 15);
         expect(builderDay, isNull);
 
         await tester.pumpWidget(
@@ -244,25 +244,25 @@ void main() {
     );
 
     testWidgets(
-      'disabledBuilder has higher build order priority than selectedBuilder',
-      (tester) async {
+      "disabledBuilder has higher build order priority than selectedBuilder",
+      (WidgetTester tester) async {
         DateTime? builderDay;
-        String builderName = '';
+        String builderName = "";
 
-        final calendarBuilders = CalendarBuilders(
-          selectedBuilder: (context, day, focusedDay) {
-            builderName = 'selectedBuilder';
+        final CalendarBuilders calendarBuilders = CalendarBuilders(
+          selectedBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
+            builderName = "selectedBuilder";
             builderDay = day;
-            return Text('${day.day}');
+            return Text("${day.day}");
           },
-          disabledBuilder: (context, day, focusedDay) {
-            builderName = 'disabledBuilder';
+          disabledBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
+            builderName = "disabledBuilder";
             builderDay = day;
-            return Text('${day.day}');
+            return Text("${day.day}");
           },
         );
 
-        final cellDay = DateTime.utc(2021, 7, 15);
+        final DateTime cellDay = DateTime.utc(2021, 7, 15);
         expect(builderDay, isNull);
 
         await tester.pumpWidget(
@@ -275,30 +275,30 @@ void main() {
         );
 
         expect(builderDay, cellDay);
-        expect(builderName, 'disabledBuilder');
+        expect(builderName, "disabledBuilder");
       },
     );
 
     testWidgets(
-      'prioritizedBuilder has the highest build order priority',
-      (tester) async {
+      "prioritizedBuilder has the highest build order priority",
+      (WidgetTester tester) async {
         DateTime? builderDay;
-        String builderName = '';
+        String builderName = "";
 
-        final calendarBuilders = CalendarBuilders(
-          prioritizedBuilder: (context, day, focusedDay) {
-            builderName = 'prioritizedBuilder';
+        final CalendarBuilders calendarBuilders = CalendarBuilders(
+          prioritizedBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
+            builderName = "prioritizedBuilder";
             builderDay = day;
-            return Text('${day.day}');
+            return Text("${day.day}");
           },
-          disabledBuilder: (context, day, focusedDay) {
-            builderName = 'disabledBuilder';
+          disabledBuilder: (BuildContext context, DateTime day, DateTime focusedDay) {
+            builderName = "disabledBuilder";
             builderDay = day;
-            return Text('${day.day}');
+            return Text("${day.day}");
           },
         );
 
-        final cellDay = DateTime.utc(2021, 7, 15);
+        final DateTime cellDay = DateTime.utc(2021, 7, 15);
         expect(builderDay, isNull);
 
         await tester.pumpWidget(
@@ -310,17 +310,17 @@ void main() {
         );
 
         expect(builderDay, cellDay);
-        expect(builderName, 'prioritizedBuilder');
+        expect(builderName, "prioritizedBuilder");
       },
     );
   });
 
-  group('CalendarBuilders Locale test:', () {
-    testWidgets('en locale', (tester) async {
-      final locale = 'en';
-      initializeDateFormatting(locale, null);
+  group("CalendarBuilders Locale test:", () {
+    testWidgets("en locale", (WidgetTester tester) async {
+      const String locale = "en";
+      await initializeDateFormatting(locale);
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       await tester.pumpWidget(
         setupTestWidget(
           cellDay,
@@ -328,15 +328,15 @@ void main() {
         ),
       );
 
-      final dayFinder = find.text(DateFormat.d(locale).format(cellDay));
+      final Finder dayFinder = find.text(DateFormat.d(locale).format(cellDay));
       expect(dayFinder, findsOneWidget);
     });
 
-    testWidgets('ar locale', (tester) async {
-      final locale = 'ar';
-      initializeDateFormatting(locale, null);
+    testWidgets("ar locale", (WidgetTester tester) async {
+      const String locale = "ar";
+      await initializeDateFormatting(locale);
 
-      final cellDay = DateTime.utc(2021, 7, 15);
+      final DateTime cellDay = DateTime.utc(2021, 7, 15);
       await tester.pumpWidget(
         setupTestWidget(
           cellDay,
@@ -344,7 +344,7 @@ void main() {
         ),
       );
 
-      final dayFinder = find.text(DateFormat.d(locale).format(cellDay));
+      final Finder dayFinder = find.text(DateFormat.d(locale).format(cellDay));
       expect(dayFinder, findsOneWidget);
     });
   });

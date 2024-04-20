@@ -1,12 +1,20 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/widgets.dart';
+import "package:flutter/widgets.dart";
 
-import '../shared/utils.dart' show TextFormatter;
+import "package:table_calendar/src/shared/utils.dart" show TextFormatter;
 
 /// Class containing styling for `TableCalendar`'s days of week panel.
 class DaysOfWeekStyle {
+
+  /// Creates a `DaysOfWeekStyle` used by `TableCalendar` widget.
+  const DaysOfWeekStyle({
+    this.dowTextFormatter,
+    this.decoration = const BoxDecoration(),
+    this.weekdayStyle = const TextStyle(color: Color(0xFF4F4F4F)),
+    this.weekendStyle = const TextStyle(color: Color(0xFF6A6A6A)),
+  });
   /// Use to customize days of week panel text (e.g. with different `DateFormat`).
   /// You can use `String` transformations to further customize the text.
   /// Defaults to simple `'E'` format (i.e. Mon, Tue, Wed, etc.).
@@ -25,12 +33,4 @@ class DaysOfWeekStyle {
 
   /// Style for weekend days on the top of calendar.
   final TextStyle weekendStyle;
-
-  /// Creates a `DaysOfWeekStyle` used by `TableCalendar` widget.
-  const DaysOfWeekStyle({
-    this.dowTextFormatter,
-    this.decoration = const BoxDecoration(),
-    this.weekdayStyle = const TextStyle(color: const Color(0xFF4F4F4F)),
-    this.weekendStyle = const TextStyle(color: const Color(0xFF6A6A6A)),
-  });
 }

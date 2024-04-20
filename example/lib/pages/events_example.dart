@@ -1,14 +1,16 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import "package:flutter/material.dart";
+import "package:table_calendar/table_calendar.dart";
 
-import '../utils.dart';
+import "package:table_calendar_example/utils.dart";
 
 class TableEventsExample extends StatefulWidget {
+  const TableEventsExample({super.key});
+
   @override
-  _TableEventsExampleState createState() => _TableEventsExampleState();
+  State<TableEventsExample> createState() => _TableEventsExampleState();
 }
 
 class _TableEventsExampleState extends State<TableEventsExample> {
@@ -37,15 +39,15 @@ class _TableEventsExampleState extends State<TableEventsExample> {
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
-    return kEvents[day] ?? [];
+    return kEvents[day] ?? <Event>[];
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
     // Implementation example
-    final days = daysInRange(start, end);
+    final List<DateTime> days = daysInRange(start, end);
 
-    return [
-      for (final d in days) ..._getEventsForDay(d),
+    return <Event>[
+      for (final DateTime d in days) ..._getEventsForDay(d),
     ];
   }
 
@@ -83,70 +85,64 @@ class _TableEventsExampleState extends State<TableEventsExample> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: Text('TableCalendar - Events'),
+        title: const Text("TableCalendar - Events"),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           TableCalendar<Event>(
             firstDay: kFirstDay,
             lastDay: kLastDay,
             focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            selectedDayPredicate: (DateTime day) => isSameDay(_selectedDay, day),
             rangeStartDay: _rangeStart,
             rangeEndDay: _rangeEnd,
             calendarFormat: _calendarFormat,
             rangeSelectionMode: _rangeSelectionMode,
             eventLoader: _getEventsForDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: CalendarStyle(
+            calendarStyle: const CalendarStyle(
               // Use `CalendarStyle` to customize the UI
               outsideDaysVisible: false,
             ),
             onDaySelected: _onDaySelected,
             onRangeSelected: _onRangeSelected,
-            onFormatChanged: (format) {
+            onFormatChanged: (CalendarFormat format) {
               if (_calendarFormat != format) {
                 setState(() {
                   _calendarFormat = format;
                 });
               }
             },
-            onPageChanged: (focusedDay) {
+            onPageChanged: (DateTime focusedDay) {
               _focusedDay = focusedDay;
             },
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 8),
           Expanded(
             child: ValueListenableBuilder<List<Event>>(
               valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
+              builder: (BuildContext context, List<Event> value, _) => ListView.builder(
                   itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return Container(
+                  itemBuilder: (BuildContext context, int index) => Container(
                       margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
+                        horizontal: 12,
+                        vertical: 4,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
+                        onTap: () => print("${value[index]}"),
+                        title: Text("${value[index]}"),
                       ),
-                    );
-                  },
-                );
-              },
+                    ),
+                ),
             ),
           ),
         ],
       ),
     );
-  }
 }

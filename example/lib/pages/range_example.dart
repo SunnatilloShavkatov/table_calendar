@@ -1,14 +1,16 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import "package:flutter/material.dart";
+import "package:table_calendar/table_calendar.dart";
 
-import '../utils.dart';
+import "package:table_calendar_example/utils.dart";
 
 class TableRangeExample extends StatefulWidget {
+  const TableRangeExample({super.key});
+
   @override
-  _TableRangeExampleState createState() => _TableRangeExampleState();
+  State<TableRangeExample> createState() => _TableRangeExampleState();
 }
 
 class _TableRangeExampleState extends State<TableRangeExample> {
@@ -21,51 +23,50 @@ class _TableRangeExampleState extends State<TableRangeExample> {
   DateTime? _rangeEnd;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TableCalendar - Range'),
-      ),
-      body: TableCalendar(
-        firstDay: kFirstDay,
-        lastDay: kLastDay,
-        focusedDay: _focusedDay,
-        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-        rangeStartDay: _rangeStart,
-        rangeEndDay: _rangeEnd,
-        calendarFormat: _calendarFormat,
-        rangeSelectionMode: _rangeSelectionMode,
-        onDaySelected: (selectedDay, focusedDay) {
-          if (!isSameDay(_selectedDay, selectedDay)) {
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text("TableCalendar - Range"),
+        ),
+        body: TableCalendar(
+          firstDay: kFirstDay,
+          lastDay: kLastDay,
+          focusedDay: _focusedDay,
+          selectedDayPredicate: (DateTime day) => isSameDay(_selectedDay, day),
+          rangeStartDay: _rangeStart,
+          rangeEndDay: _rangeEnd,
+          calendarFormat: _calendarFormat,
+          rangeSelectionMode: _rangeSelectionMode,
+          onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
+            if (!isSameDay(_selectedDay, selectedDay)) {
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+                _rangeStart = null; // Important to clean those
+                _rangeEnd = null;
+                _rangeSelectionMode = RangeSelectionMode.toggledOff;
+              });
+            }
+          },
+          onRangeSelected:
+              (DateTime? start, DateTime? end, DateTime focusedDay) {
             setState(() {
-              _selectedDay = selectedDay;
+              _selectedDay = null;
               _focusedDay = focusedDay;
-              _rangeStart = null; // Important to clean those
-              _rangeEnd = null;
-              _rangeSelectionMode = RangeSelectionMode.toggledOff;
+              _rangeStart = start;
+              _rangeEnd = end;
+              _rangeSelectionMode = RangeSelectionMode.toggledOn;
             });
-          }
-        },
-        onRangeSelected: (start, end, focusedDay) {
-          setState(() {
-            _selectedDay = null;
+          },
+          onFormatChanged: (CalendarFormat format) {
+            if (_calendarFormat != format) {
+              setState(() {
+                _calendarFormat = format;
+              });
+            }
+          },
+          onPageChanged: (DateTime focusedDay) {
             _focusedDay = focusedDay;
-            _rangeStart = start;
-            _rangeEnd = end;
-            _rangeSelectionMode = RangeSelectionMode.toggledOn;
-          });
-        },
-        onFormatChanged: (format) {
-          if (_calendarFormat != format) {
-            setState(() {
-              _calendarFormat = format;
-            });
-          }
-        },
-        onPageChanged: (focusedDay) {
-          _focusedDay = focusedDay;
-        },
-      ),
-    );
-  }
+          },
+        ),
+      );
 }

@@ -1,15 +1,30 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+import "package:flutter/widgets.dart";
+import "package:intl/intl.dart";
 
-import '../customization/header_style.dart';
-import '../shared/utils.dart' show CalendarFormat, DayBuilder;
-import 'custom_icon_button.dart';
-import 'format_button.dart';
+import "package:table_calendar/src/customization/header_style.dart";
+import "package:table_calendar/src/shared/utils.dart" show CalendarFormat, DayBuilder;
+import "package:table_calendar/src/widgets/custom_icon_button.dart";
+import "package:table_calendar/src/widgets/format_button.dart";
 
 class CalendarHeader extends StatelessWidget {
+
+  const CalendarHeader({
+    super.key,
+    this.locale,
+    required this.focusedMonth,
+    required this.calendarFormat,
+    required this.headerStyle,
+    required this.onLeftChevronTap,
+    required this.onRightChevronTap,
+    required this.onHeaderTap,
+    required this.onHeaderLongPress,
+    required this.onFormatButtonTap,
+    required this.availableCalendarFormats,
+    this.headerTitleBuilder,
+  });
   final dynamic locale;
   final DateTime focusedMonth;
   final CalendarFormat calendarFormat;
@@ -22,24 +37,9 @@ class CalendarHeader extends StatelessWidget {
   final Map<CalendarFormat, String> availableCalendarFormats;
   final DayBuilder? headerTitleBuilder;
 
-  const CalendarHeader({
-    Key? key,
-    this.locale,
-    required this.focusedMonth,
-    required this.calendarFormat,
-    required this.headerStyle,
-    required this.onLeftChevronTap,
-    required this.onRightChevronTap,
-    required this.onHeaderTap,
-    required this.onHeaderLongPress,
-    required this.onFormatButtonTap,
-    required this.availableCalendarFormats,
-    this.headerTitleBuilder,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    final text = headerStyle.titleTextFormatter?.call(focusedMonth, locale) ??
+    final String text = headerStyle.titleTextFormatter?.call(focusedMonth, locale) ??
         DateFormat.yMMMM(locale).format(focusedMonth);
 
     return Container(
@@ -47,8 +47,7 @@ class CalendarHeader extends StatelessWidget {
       margin: headerStyle.headerMargin,
       padding: headerStyle.headerPadding,
       child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
+        children: <Widget>[
           if (headerStyle.leftChevronVisible)
             CustomIconButton(
               icon: headerStyle.leftChevronIcon,
@@ -73,7 +72,7 @@ class CalendarHeader extends StatelessWidget {
           if (headerStyle.formatButtonVisible &&
               availableCalendarFormats.length > 1)
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.only(left: 8),
               child: FormatButton(
                 onTap: onFormatButtonTap,
                 availableCalendarFormats: availableCalendarFormats,

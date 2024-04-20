@@ -1,17 +1,15 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:table_calendar/src/widgets/calendar_page.dart';
+import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:table_calendar/src/widgets/calendar_page.dart";
 
-Widget setupTestWidget(Widget child) {
-  return Directionality(
+Widget setupTestWidget(Widget child) => Directionality(
     textDirection: TextDirection.ltr,
     child: child,
   );
-}
 
 List<DateTime> visibleDays = getDaysInRange(
   DateTime.utc(2021, 6, 27),
@@ -19,55 +17,48 @@ List<DateTime> visibleDays = getDaysInRange(
 );
 
 List<DateTime> getDaysInRange(DateTime first, DateTime last) {
-  final dayCount = last.difference(first).inDays + 1;
+  final int dayCount = last.difference(first).inDays + 1;
   return List.generate(
     dayCount,
-    (index) => DateTime.utc(first.year, first.month, first.day + index),
+    (int index) => DateTime.utc(first.year, first.month, first.day + index),
   );
 }
 
 void main() {
   testWidgets(
-    'CalendarPage lays out all the visible days',
-    (tester) async {
+    "CalendarPage lays out all the visible days",
+    (WidgetTester tester) async {
       await tester.pumpWidget(
         setupTestWidget(
           CalendarPage(
             visibleDays: visibleDays,
-            dayBuilder: (context, day) {
-              return Text('${day.day}');
-            },
+            dayBuilder: (BuildContext context, DateTime day) => Text("${day.day}"),
             dowVisible: false,
           ),
         ),
       );
 
-      final expectedCellCount = visibleDays.length;
+      final int expectedCellCount = visibleDays.length;
       expect(find.byType(Text), findsNWidgets(expectedCellCount));
     },
   );
 
   testWidgets(
-    'CalendarPage lays out 7 DOW labels',
-    (tester) async {
+    "CalendarPage lays out 7 DOW labels",
+    (WidgetTester tester) async {
       await tester.pumpWidget(
         setupTestWidget(
           CalendarPage(
             visibleDays: visibleDays,
-            dayBuilder: (context, day) {
-              return Text('${day.day}');
-            },
-            dowVisible: true,
-            dowBuilder: (context, day) {
-              return Text('${day.weekday}');
-            },
+            dayBuilder: (BuildContext context, DateTime day) => Text("${day.day}"),
+            dowBuilder: (BuildContext context, DateTime day) => Text("${day.weekday}"),
             dowHeight: 5,
           ),
         ),
       );
 
-      final expectedCellCount = visibleDays.length;
-      final expectedDowLabels = 7;
+      final int expectedCellCount = visibleDays.length;
+      const int expectedDowLabels = 7;
 
       expect(
         find.byType(Text),
@@ -77,38 +68,30 @@ void main() {
   );
 
   testWidgets(
-    'Throw AssertionError when CalendarPage is built with dowVisible set to true, but dowBuilder is absent',
-    (tester) async {
+    "Throw AssertionError when CalendarPage is built with dowVisible set to true, but dowBuilder is absent",
+    (WidgetTester tester) async {
       expect(() async {
         await tester.pumpWidget(
           setupTestWidget(
             CalendarPage(
               visibleDays: visibleDays,
-              dayBuilder: (context, day) {
-                return Text('${day.day}');
-              },
-              dowVisible: true,
+              dayBuilder: (BuildContext context, DateTime day) => Text("${day.day}"),
             ),
           ),
         );
-      }, throwsAssertionError);
+      }, throwsAssertionError,);
     },
   );
 
   testWidgets(
-    'Week numbers are not visible by default',
-    (tester) async {
+    "Week numbers are not visible by default",
+    (WidgetTester tester) async {
       await tester.pumpWidget(
         setupTestWidget(
           CalendarPage(
             visibleDays: visibleDays,
-            dayBuilder: (context, day) {
-              return Text('${day.day}');
-            },
-            dowVisible: true,
-            dowBuilder: (context, day) {
-              return Text('${day.weekday}');
-            },
+            dayBuilder: (BuildContext context, DateTime day) => Text("${day.day}"),
+            dowBuilder: (BuildContext context, DateTime day) => Text("${day.weekday}"),
             dowHeight: 5,
           ),
         ),
@@ -122,25 +105,18 @@ void main() {
   );
 
   testWidgets(
-    'Week numbers are visible',
-    (tester) async {
+    "Week numbers are visible",
+    (WidgetTester tester) async {
       await tester.pumpWidget(setupTestWidget(
         CalendarPage(
           visibleDays: visibleDays,
-          dayBuilder: (context, day) {
-            return Text('${day.day}');
-          },
-          dowVisible: true,
-          dowBuilder: (context, day) {
-            return Text('${day.weekday}');
-          },
+          dayBuilder: (BuildContext context, DateTime day) => Text("${day.day}"),
+          dowBuilder: (BuildContext context, DateTime day) => Text("${day.weekday}"),
           dowHeight: 5,
           weekNumberVisible: true,
-          weekNumberBuilder: (BuildContext context, DateTime day) {
-            return Text(day.weekday.toString());
-          },
+          weekNumberBuilder: (BuildContext context, DateTime day) => Text(day.weekday.toString()),
         ),
-      ));
+      ),);
 
       expect(
         find.byType(Column),

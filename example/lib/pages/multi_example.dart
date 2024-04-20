@@ -1,20 +1,22 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
-import 'dart:collection';
+import "dart:collection";
 
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import "package:flutter/material.dart";
+import "package:table_calendar/table_calendar.dart";
 
-import '../utils.dart';
+import "package:table_calendar_example/utils.dart";
 
 class TableMultiExample extends StatefulWidget {
+  const TableMultiExample({super.key});
+
   @override
-  _TableMultiExampleState createState() => _TableMultiExampleState();
+  State<TableMultiExample> createState() => _TableMultiExampleState();
 }
 
 class _TableMultiExampleState extends State<TableMultiExample> {
-  final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
+  final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier(<Event>[]);
 
   // Using a `LinkedHashSet` is recommended due to equality comparison override
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
@@ -33,14 +35,14 @@ class _TableMultiExampleState extends State<TableMultiExample> {
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
-    return kEvents[day] ?? [];
+    return kEvents[day] ?? <Event>[];
   }
 
   List<Event> _getEventsForDays(Set<DateTime> days) {
     // Implementation example
     // Note that days are in selection order (same applies to events)
-    return [
-      for (final d in days) ..._getEventsForDay(d),
+    return <Event>[
+      for (final DateTime d in days) ..._getEventsForDay(d),
     ];
   }
 
@@ -59,13 +61,12 @@ class _TableMultiExampleState extends State<TableMultiExample> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: Text('TableCalendar - Multi'),
+        title: const Text("TableCalendar - Multi"),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           TableCalendar<Event>(
             firstDay: kFirstDay,
             lastDay: kLastDay,
@@ -73,60 +74,52 @@ class _TableMultiExampleState extends State<TableMultiExample> {
             calendarFormat: _calendarFormat,
             eventLoader: _getEventsForDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
-            selectedDayPredicate: (day) {
-              // Use values from Set to mark multiple days as selected
-              return _selectedDays.contains(day);
-            },
+            selectedDayPredicate: _selectedDays.contains,
             onDaySelected: _onDaySelected,
-            onFormatChanged: (format) {
+            onFormatChanged: (CalendarFormat format) {
               if (_calendarFormat != format) {
                 setState(() {
                   _calendarFormat = format;
                 });
               }
             },
-            onPageChanged: (focusedDay) {
+            onPageChanged: (DateTime focusedDay) {
               _focusedDay = focusedDay;
             },
           ),
           ElevatedButton(
-            child: Text('Clear selection'),
+            child: const Text("Clear selection"),
             onPressed: () {
               setState(() {
                 _selectedDays.clear();
-                _selectedEvents.value = [];
+                _selectedEvents.value = <Event>[];
               });
             },
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 8),
           Expanded(
             child: ValueListenableBuilder<List<Event>>(
               valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
+              builder: (BuildContext context, List<Event> value, _) => ListView.builder(
                   itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return Container(
+                  itemBuilder: (BuildContext context, int index) => Container(
                       margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
+                        horizontal: 12,
+                        vertical: 4,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
+                        onTap: () => print("${value[index]}"),
+                        title: Text("${value[index]}"),
                       ),
-                    );
-                  },
-                );
-              },
+                    ),
+                ),
             ),
           ),
         ],
       ),
     );
-  }
 }
